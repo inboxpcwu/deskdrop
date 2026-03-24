@@ -172,10 +172,11 @@ export default function LandingPage() {
                    className="group flex flex-col bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100"
                  >
                    <div className="relative h-72 overflow-hidden">
-                     <img
+                     <Image
                        src={space.images[0]}
                        alt={space.name}
-                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                       fill
+                       className="object-cover group-hover:scale-110 transition-transform duration-700"
                      />
                      <div className="absolute top-6 left-6">
                         <span className="px-3 py-1.5 bg-white/95 backdrop-blur rounded-lg text-[10px] font-black uppercase tracking-widest text-slate-900">

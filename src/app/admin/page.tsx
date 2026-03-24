@@ -1,17 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { LayoutDashboard, Users, ShoppingCart, CalendarCheck, DollarSign, AlertTriangle, LogOut, Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+
+interface DashboardStats {
+  revenue: number;
+  bookings: number;
+  activationRate: string;
+  conversionRate: string;
+  conflictRate: string;
+  rpau: string;
+}
 
 export default function AdminDashboard() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +55,7 @@ export default function AdminDashboard() {
         conflictRate: ((conflicts / (attempts || 1)) * 100).toFixed(1),
         rpau: (totalRevenue / (views || 1)).toFixed(2)
       });
-    } catch (err) {
+    } catch {
       setError('Failed to load metrics');
     } finally {
       setLoading(false);
@@ -100,7 +107,12 @@ export default function AdminDashboard() {
           <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
           <p className="font-bold">Aggregating real-time data...</p>
         </div>
-      ) : (
+      ) : error ? (
+        <div className="p-8 bg-rose-50 border border-rose-100 rounded-3xl text-rose-600 flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6" />
+          <p className="font-bold">{error}</p>
+        </div>
+      ) : stats ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Revenue & Bookings (Traditional) */}
           <MetricCard 
@@ -154,12 +166,21 @@ export default function AdminDashboard() {
             bg="bg-rose-50"
           />
         </div>
-      )}
+      ) : null}
     </div>
   );
 }
 
-function MetricCard({ title, value, icon, suffix, color, bg }: any) {
+interface MetricCardProps {
+  title: string;
+  value: string | number;
+  icon: React.ReactNode;
+  suffix: string;
+  color: string;
+  bg: string;
+}
+
+function MetricCard({ title, value, icon, suffix, color, bg }: MetricCardProps) {
   return (
     <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all group">
       <div className="flex justify-between items-start mb-6">

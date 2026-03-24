@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 import { sendGAEvent } from '@next/third-parties/google';
 
-export async function trackEvent(eventName: string, eventData: any = {}) {
+export async function trackEvent(eventName: string, eventData: Record<string, unknown> = {}) {
   // 1. Send to Google Analytics
   sendGAEvent('event', eventName, eventData);
 
