@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 import { AuthProvider } from "@/context/AuthContext";
@@ -31,6 +32,7 @@ export default function RootLayout({
             </div>
           </CartProvider>
         </AuthProvider>
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ""} />
       </body>
     </html>
   );

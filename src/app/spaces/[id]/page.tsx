@@ -5,7 +5,9 @@ import { supabase } from '@/lib/supabase';
 import { useCart } from '@/context/CartContext';
 import { ChevronLeft, Users, Clock, Shield, Star, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { sendGAEvent } from '@next/third-parties/google';
 import { format, addHours, differenceInHours, parseISO } from 'date-fns';
 
 type Space = {
@@ -36,6 +38,16 @@ export default function SpaceDetailPage({ params }: { params: { id: string } }) 
 
       if (!error && data) {
         setSpace(data);
+        sendGAEvent('event', 'view_item', {
+          currency: 'USD',
+          value: data.price_per_hour,
+          items: [{
+            item_id: data.id,
+            item_name: data.name,
+            price: data.price_per_hour,
+            item_category: 'Co-working Space'
+          }]
+        });
       }
       setLoading(false);
     }
@@ -62,6 +74,17 @@ export default function SpaceDetailPage({ params }: { params: { id: string } }) 
       end_at: endDate,
       total_price: hours * space.price_per_hour,
     });
+    
+    sendGAEvent('event', 'add_to_cart', {
+      currency: 'USD',
+      value: hours * space.price_per_hour,
+      items: [{
+        item_id: space.id,
+        item_name: space.name,
+        price: space.price_per_hour,
+        quantity: hours
+      }]
+    });
 
     router.push('/cart');
   };
@@ -82,7 +105,7 @@ export default function SpaceDetailPage({ params }: { params: { id: string } }) 
         {/* Left Column: Gallery & Details */}
         <div className="lg:col-span-2 space-y-8">
           <div className="rounded-2xl overflow-hidden shadow-xl aspect-video relative group">
-            <img src={space.images[0]} alt={space.name} className="w-full h-full object-cover" />
+            <Image src={space.images[0]} alt={space.name} fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
             <h1 className="absolute bottom-8 left-8 text-4xl font-bold text-white tracking-tight">
               {space.name}

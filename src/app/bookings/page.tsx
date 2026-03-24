@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import { format, parseISO } from 'date-fns';
 import { CalendarDays, Tag, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type Booking = {
   id: string;
@@ -69,11 +70,12 @@ export default function BookingsPage() {
             key={booking.id}
             className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 flex flex-col md:flex-row gap-6 p-4"
           >
-            <div className="w-full md:w-64 h-48 md:h-auto rounded-2xl overflow-hidden flex-shrink-0">
-              <img
+            <div className="w-full md:w-64 h-48 md:h-auto rounded-2xl overflow-hidden flex-shrink-0 relative">
+              <Image
                 src={booking.spaces.images[0]}
                 alt={booking.spaces.name}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
 

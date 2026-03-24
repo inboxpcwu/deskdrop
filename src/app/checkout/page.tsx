@@ -4,6 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { sendGAEvent } from '@next/third-parties/google';
 import { CreditCard, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function CheckoutPage() {
@@ -28,6 +29,17 @@ export default function CheckoutPage() {
       });
 
       if (resp.ok) {
+        sendGAEvent('event', 'purchase', {
+          transaction_id: `book_${Date.now()}`,
+          value: total,
+          currency: 'USD',
+          items: items.map(item => ({
+            item_id: item.space_id,
+            item_name: item.space_name,
+            price: item.price_per_hour,
+            quantity: item.total_price / item.price_per_hour
+          }))
+        });
         setIsSuccess(true);
         clearCart();
         setTimeout(() => router.push('/bookings'), 3000);

@@ -3,9 +3,8 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Users, Clock, Shield, Zap, Target, ArrowRight, Play, Star } from 'lucide-react';
-
-/* eslint-disable @next/next/no-img-element */
 
 type Space = {
   id: string;
@@ -20,7 +19,6 @@ type Space = {
 export default function LandingPage() {
   const [spaces, setSpaces] = useState<Space[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filterCapacity, setFilterCapacity] = useState<number | null>(null);
 
   useEffect(() => {
     async function fetchSpaces() {
@@ -69,8 +67,8 @@ export default function LandingPage() {
                <div className="flex items-center gap-8 pt-8 border-t border-slate-100">
                   <div className="flex -space-x-3">
                     {[1,2,3,4].map(i => (
-                      <div key={i} className="w-12 h-12 rounded-full border-4 border-white overflow-hidden bg-slate-200">
-                         <img src={`https://i.pravatar.cc/150?u=${i}`} alt="user" />
+                      <div key={i} className="w-12 h-12 rounded-full border-4 border-white overflow-hidden bg-slate-200 relative">
+                         <Image src={`https://i.pravatar.cc/150?u=${i}`} alt="user" fill className="object-cover" />
                       </div>
                     ))}
                   </div>
@@ -86,10 +84,11 @@ export default function LandingPage() {
              <div className="relative group">
                 <div className="absolute -inset-4 bg-indigo-600/5 rounded-[2.5rem] blur-2xl group-hover:bg-indigo-600/10 transition-colors"></div>
                 <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white">
-                  <img 
+                   <Image 
                     src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1200" 
                     alt="Premium workspace" 
-                    className="w-full h-[600px] object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute bottom-8 left-8 right-8 bg-white/10 backdrop-blur-xl p-6 rounded-2xl border border-white/20">
                      <div className="flex justify-between items-center text-white">
@@ -230,8 +229,8 @@ export default function LandingPage() {
                     &quot;DeskDrop has completely changed how our remote team works. We can find a premium boardroom in 10 minutes for our strategy sessions. The quality of spaces is consistently high.&quot;
                   </p>
                   <div className="flex items-center gap-4">
-                     <div className="w-14 h-14 rounded-full bg-slate-700 overflow-hidden">
-                        <img src="https://i.pravatar.cc/150?u=a" alt="Sarah J" />
+                     <div className="w-14 h-14 rounded-full bg-slate-700 overflow-hidden relative">
+                        <Image src="https://i.pravatar.cc/150?u=a" alt="Sarah J" fill className="object-cover" />
                      </div>
                      <div>
                         <p className="font-bold text-white text-lg">Sarah Jenkins</p>
@@ -245,8 +244,8 @@ export default function LandingPage() {
                     &quot;I travel as a designer and DeskDrop is my lifeline. Reliable Wi-Fi, great coffee, and beautiful environments. It&apos;s better than any coworking membership I&apos;ve HAD.&quot;
                   </p>
                   <div className="flex items-center gap-4">
-                     <div className="w-14 h-14 rounded-full bg-slate-700 overflow-hidden">
-                        <img src="https://i.pravatar.cc/150?u=b" alt="Alex M" />
+                     <div className="w-14 h-14 rounded-full bg-slate-700 overflow-hidden relative">
+                        <Image src="https://i.pravatar.cc/150?u=b" alt="Alex M" fill className="object-cover" />
                      </div>
                      <div>
                         <p className="font-bold text-white text-lg">Alex Moriarty</p>
