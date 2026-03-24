@@ -2,7 +2,7 @@
 
 ### Overview
 
-A minimal co-working space rental web app built to demonstrate lean startup principles. Users browse spaces, add them to a cart, and confirm a booking. No real payment in v1.
+An MVP of a co-working space rental web app. Users browse spaces, add them to a cart, and confirm a booking. No real payment in v1.
 
 ---
 
