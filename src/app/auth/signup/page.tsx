@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { sendGAEvent } from '@next/third-parties/google';
+import { trackEvent } from '@/lib/analytics';
 import Link from 'next/link';
 
 export default function SignupPage() {
@@ -33,7 +33,7 @@ export default function SignupPage() {
       setError(error.message);
       setLoading(false);
     } else {
-      sendGAEvent('event', 'sign_up', { method: 'email' });
+      trackEvent('sign_up', { method: 'email' });
       alert('Check your email for the confirmation link!');
       router.push('/auth/login');
     }

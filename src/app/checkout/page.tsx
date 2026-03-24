@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { sendGAEvent } from '@next/third-parties/google';
+import { trackEvent } from '@/lib/analytics';
 import { CreditCard, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function CheckoutPage() {
@@ -29,7 +29,7 @@ export default function CheckoutPage() {
       });
 
       if (resp.ok) {
-        sendGAEvent('event', 'purchase', {
+        trackEvent('purchase', {
           transaction_id: `book_${Date.now()}`,
           value: total,
           currency: 'USD',

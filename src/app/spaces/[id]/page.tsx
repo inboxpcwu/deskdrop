@@ -7,7 +7,7 @@ import { ChevronLeft, Users, Clock, Shield, Star, CheckCircle } from 'lucide-rea
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { sendGAEvent } from '@next/third-parties/google';
+import { trackEvent } from '@/lib/analytics';
 import { format, addHours, differenceInHours, parseISO } from 'date-fns';
 
 type Space = {
@@ -38,7 +38,7 @@ export default function SpaceDetailPage({ params }: { params: { id: string } }) 
 
       if (!error && data) {
         setSpace(data);
-        sendGAEvent('event', 'view_item', {
+        trackEvent('view_item', {
           currency: 'USD',
           value: data.price_per_hour,
           items: [{
@@ -75,7 +75,7 @@ export default function SpaceDetailPage({ params }: { params: { id: string } }) 
       total_price: hours * space.price_per_hour,
     });
     
-    sendGAEvent('event', 'add_to_cart', {
+    trackEvent('add_to_cart', {
       currency: 'USD',
       value: hours * space.price_per_hour,
       items: [{
